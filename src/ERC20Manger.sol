@@ -22,7 +22,7 @@ contract ERC20Manager is ERC20 {
     modifier isOwner() {
         require(
             msg.sender == i_owner,
-            ERC20Factory__NotOwner(msg.sender, i_owner)
+            ERC20Manager__NotOwner(msg.sender, i_owner)
         );
         _;
     }

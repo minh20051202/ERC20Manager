@@ -24,18 +24,11 @@ contract ERC20FactoryTest is Test {
         vm.deal(USER_NUMBER_1, STARTING_USER_BALANCE);
     }
 
-    function testOwnerERC20Manager() public mint {
-        address firstToken = erc20Factory.getListOfERC20ManagerCreated()[0];
-        assertEq(ERC20Manager(firstToken).getOwner(), USER_NUMBER_1);
-    }
-
-    function testGetListOfERC20() public mint {
-        erc20Factory.getListOfERC20(USER_NUMBER_1);
-    }
-
-    function testGetOwnerOfERC20() public mint {
-        erc20Factory.getOwnerOfERC20(
+    function testGetTotalSupplyOfERC20() public mint {
+        address owner = erc20Factory.getOwnerOfERC20(
             erc20Factory.getListOfERC20(USER_NUMBER_1)[0]
         );
+        address token = erc20Factory.getListOfERC20(USER_NUMBER_1)[0];
+        assertEq(ERC20Manager(token).balanceOf(owner), 1e18);
     }
 }

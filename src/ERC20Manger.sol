@@ -5,7 +5,7 @@ pragma solidity ^0.8.20;
 import {ERC20} from "solmate/tokens/ERC20.sol";
 
 contract ERC20Manager is ERC20 {
-    address immutable i_owner;
+    address private immutable i_owner;
 
     error ERC20Manager__NotOwner(address sender, address owner);
 

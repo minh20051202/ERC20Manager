@@ -13,7 +13,7 @@ contract MultisigDAO {
     error MultisigDAO_AlreadyApproved(uint256 proposalId);
     error MultisigDAO_AlreadyExecutedd(uint256 proposalId);
     error MultisigDAO_NotEnoughApprovals(
-        uint256 txID,
+        uint256 proposalId,
         uint256 required,
         uint256 approvals
     );

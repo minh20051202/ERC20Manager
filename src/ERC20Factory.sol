@@ -29,7 +29,7 @@ contract ERC20Factory {
     /*//////////////////////////////////////////////////////////////
                             STATE VARIABLES
     //////////////////////////////////////////////////////////////*/
-    address[] s_erc20;
+    address[] private s_erc20;
     mapping(address => address[]) s_addressToListOfERC20;
     mapping(address => address) s_ERC20ToOwner;
     address private immutable i_owner;
@@ -79,7 +79,8 @@ contract ERC20Factory {
             _name,
             _symbol,
             _decimals,
-            _amount
+            _amount,
+            msg.sender
         );
         s_erc20.push(address(erc20));
         s_addressToListOfERC20[msg.sender].push(address(erc20));

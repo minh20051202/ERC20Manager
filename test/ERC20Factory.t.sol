@@ -14,7 +14,7 @@ contract ERC20FactoryTest is Test {
 
     modifier mint() {
         vm.prank(USER_NUMBER_1);
-        erc20Factory.mintERC20Manager("Hello", "H", 18, 1e18);
+        erc20Factory.mintERC20("Hello", "H", 18, 1e18);
         _;
     }
 

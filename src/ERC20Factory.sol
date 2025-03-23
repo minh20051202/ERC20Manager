@@ -32,6 +32,7 @@ contract ERC20Factory {
     //////////////////////////////////////////////////////////////*/
     address[] private s_erc20;
     address[] private s_erc20DAO;
+    address[] private s_listOfDAO;
     mapping(address => address[]) s_addressToListOfERC20;
     mapping(address => address) s_daoAddressToERC20;
     mapping(address => address) s_ERC20ToOwner;
@@ -49,7 +50,7 @@ contract ERC20Factory {
     /*//////////////////////////////////////////////////////////////
                             PUBLIC FUNCTIONS
     //////////////////////////////////////////////////////////////*/
-    function mintERC20Manager(
+    function mintERC20(
         string memory _name,
         string memory _symbol,
         uint8 _decimals,
@@ -67,7 +68,7 @@ contract ERC20Factory {
         emit Create(msg.sender, address(erc20), erc20.totalSupply());
     }
 
-    function mintERC20ManagerForDAO(
+    function mintERC20ForDAO(
         address[] memory _owners,
         uint256 _required,
         string memory _name,
@@ -85,6 +86,7 @@ contract ERC20Factory {
         );
         address token = address(multiSigDAO.erc20Manager());
         address daoAddress = address(multiSigDAO);
+        s_listOfDAO.push(daoAddress);
         s_erc20DAO.push(token);
         s_ERC20toDAO[token] = daoAddress;
         s_daoAddressToERC20[daoAddress] = token;
@@ -100,8 +102,12 @@ contract ERC20Factory {
         return s_addressToListOfERC20[user];
     }
 
-    function getERC20ofDAO(address dao) public view returns (address) {
-        return s_daoAddressToERC20[dao];
+    function getOwnerOfERC20(address token) public view returns (address) {
+        return s_ERC20ToOwner[token];
+    }
+
+    function getListOfERC20Created() public view returns (address[] memory) {
+        return s_erc20;
     }
 
     function getDAOAddressOfERC20DAO(
@@ -110,23 +116,27 @@ contract ERC20Factory {
         return s_ERC20toDAO[token];
     }
 
-    function getOwnerOfERC20(address token) public view returns (address) {
-        return s_ERC20ToOwner[token];
+    function getListOfDAO() public view returns (address[] memory) {
+        return s_listOfDAO;
     }
 
-    function getListOfERC20ManagerCreated()
-        public
-        view
-        returns (address[] memory)
-    {
-        return s_erc20;
-    }
-
-    function getListOfERC20ManagerDAOCreated()
-        public
-        view
-        returns (address[] memory)
-    {
+    function getListOfERC20DAOCreated() public view returns (address[] memory) {
         return s_erc20DAO;
+    }
+
+    function getERC20OfDAO(
+        address dao
+    ) public view returns (address, string memory, string memory, uint8) {
+        ERC20Manager erc20DAO = ERC20Manager(s_daoAddressToERC20[dao]);
+        string memory tokenName = erc20DAO.name();
+        string memory symbol = erc20DAO.symbol();
+        uint8 decimals = erc20DAO.decimals();
+        return (address(erc20DAO), tokenName, symbol, decimals);
+    }
+
+    function getDAOProposals(
+        address daoAddress
+    ) public view returns (MultisigDAO.Proposal[] memory) {
+        return MultisigDAO(daoAddress).getProposals();
     }
 }

@@ -22,8 +22,8 @@ contract ERC20FactoryDAOTest is Test {
         for (uint160 i = 1; i < OWNER_LENGTH + 1; i++) {
             owners.push(address(i));
         }
-        erc20Factory.mintERC20ManagerForDAO(owners, 2, "Hello", "H", 18, 1e18);
-        token = erc20Factory.getListOfERC20ManagerDAOCreated()[0];
+        erc20Factory.mintERC20ForDAO(owners, 2, "Hello", "H", 18, 1e18);
+        token = erc20Factory.getListOfERC20DAOCreated()[0];
         multiSigDAO = MultisigDAO(erc20Factory.getDAOAddressOfERC20DAO(token));
     }
 

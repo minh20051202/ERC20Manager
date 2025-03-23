@@ -41,7 +41,7 @@ contract MultisigDAO {
     uint256 public s_required;
     ERC20Manager public erc20Manager;
 
-    Proposal[] public s_proposals;
+    Proposal[] private s_proposals;
     mapping(uint256 => mapping(address => bool)) public s_isApproved;
 
     modifier onlyOwner() {
@@ -167,5 +167,9 @@ contract MultisigDAO {
             erc20Manager.burn(address(this), proposal.value);
             emit Execute(_proposalId);
         }
+    }
+
+    function getProposals() public view returns (Proposal[] memory) {
+        return s_proposals;
     }
 }

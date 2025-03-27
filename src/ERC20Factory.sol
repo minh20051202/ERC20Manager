@@ -124,14 +124,19 @@ contract ERC20Factory {
         return s_erc20DAO;
     }
 
-    function getERC20OfDAO(
+    function getERC20MetadataOfDAO(
         address dao
-    ) public view returns (address, string memory, string memory, uint8) {
+    )
+        public
+        view
+        returns (address, string memory, string memory, uint8, uint256)
+    {
         ERC20Manager erc20DAO = ERC20Manager(s_daoAddressToERC20[dao]);
         string memory tokenName = erc20DAO.name();
         string memory symbol = erc20DAO.symbol();
         uint8 decimals = erc20DAO.decimals();
-        return (address(erc20DAO), tokenName, symbol, decimals);
+        uint256 totalSupply = erc20DAO.totalSupply();
+        return (address(erc20DAO), tokenName, symbol, decimals, totalSupply);
     }
 
     function getDAOProposals(

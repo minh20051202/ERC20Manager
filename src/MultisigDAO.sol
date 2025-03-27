@@ -32,7 +32,7 @@ contract MultisigDAO {
         address to;
         uint256 value;
         Action action;
-        bytes data;
+        string proposalName;
         bool isExecuted;
     }
 
@@ -107,14 +107,14 @@ contract MultisigDAO {
         address _to,
         uint256 _value,
         Action _action,
-        bytes calldata _data
+        string memory _proposalName
     ) external onlyOwner {
         s_proposals.push(
             Proposal({
                 to: _to,
                 value: _value,
                 action: _action,
-                data: _data,
+                proposalName: _proposalName,
                 isExecuted: false
             })
         );

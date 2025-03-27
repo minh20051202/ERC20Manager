@@ -36,7 +36,7 @@ contract MultisigDAO {
         bool isExecuted;
     }
 
-    address[] public s_owners;
+    address[] private s_owners;
     mapping(address => bool) public s_isOwner;
     uint256 public s_required;
     ERC20Manager public erc20Manager;
@@ -171,5 +171,9 @@ contract MultisigDAO {
 
     function getProposals() public view returns (Proposal[] memory) {
         return s_proposals;
+    }
+
+    function getOwners() public view returns (address[] memory) {
+        return s_owners;
     }
 }
